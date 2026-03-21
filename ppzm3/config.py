@@ -43,8 +43,8 @@ class AppConfig:
     @staticmethod
     def default() -> "AppConfig":
         return AppConfig(
-            map_name="ppzm3_19010_50x40",
-            zip_code="19010",
+            map_name="ppzm3_11368_50x40",
+            zip_code="11368",
             country_code="us",
             cells_x=50,
             cells_y=40,

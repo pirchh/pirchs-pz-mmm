@@ -212,7 +212,7 @@ It currently stores:
 - logging frequency
 - optional debug mask writing
 
-The `default()` constructor gives the project a runnable baseline configuration. Out of the box, the default map name is `ppzm3_19010_50x40`, ZIP is `19010`, dimensions are `50 x 40`, and each cell is `300` tiles wide/high.
+The `default()` constructor gives the project a runnable baseline configuration. Out of the box, the default map name is `ppzm3_11368_50x40`, ZIP is `11368`, dimensions are `50 x 40`, and each cell is `300` tiles wide/high.
 
 Two computed properties are especially useful:
 - `grid_width`
@@ -512,7 +512,7 @@ These types make the pipeline easier to understand because each stage has a clea
 ## Default Runtime Behavior
 
 With the current default configuration, the project is set up to generate a map using:
-- ZIP code `19010`
+- ZIP code `11368`
 - country `us`
 - map size `50 x 40` cells
 - `300` tiles per cell
