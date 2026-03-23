@@ -806,6 +806,5 @@ git push -u origin main
 <div align="center">
 
 ### Pirchs PZ MMM
-**Detailed README generated from the current project structure and code shared in this chat**
 
 </div>
