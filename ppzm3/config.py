@@ -43,18 +43,18 @@ class AppConfig:
     @staticmethod
     def default() -> "AppConfig":
         return AppConfig(
-            map_name="ppzm3_11368_50x40",
+            map_name="ppzm3_11368_2x2",
             zip_code="11368",
             country_code="us",
-            cells_x=50,
-            cells_y=40,
+            cells_x=2,
+            cells_y=2,
             tiles_per_cell=300,
             center_lat=None,
             center_lon=None,
             bbox=None,
             cache_dir=Path("cache"),
             output_dir=Path("output"),
-            overpass_url="https://overpass.kumi.systems/api/interpreter",
+            overpass_url="https://z.overpass-api.de/api/interpreter",
             nominatim_url="https://nominatim.openstreetmap.org/search",
             user_agent="ppzm3/0.5 (Project Zomboid chunked renderer)",
             road_widths={
