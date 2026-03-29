@@ -58,7 +58,12 @@ def main() -> None:
     log.info("Tiles per cell: %s", config.tiles_per_cell)
     log.info("Grid: %s x %s", config.grid_width, config.grid_height)
     log.info("Chunk padding: %s", config.chunk_padding_tiles)
-    log.info("Overview block size: %s x %s cells", config.overview_block_cells, config.overview_block_cells)
+    log.info(
+        "Overview block size: %s x %s cells",
+        config.overview_block_cells,
+        config.overview_block_cells,
+    )
+    log.info("Preferred Overpass endpoint: %s", config.overpass_url)
 
     t0 = time.perf_counter()
 
@@ -85,7 +90,11 @@ def main() -> None:
             save_chunk_pair(final_chunk, config, cx, cy)
             processed += 1
 
-            if processed == 1 or processed % config.log_every_n_chunks == 0 or processed == total_chunks:
+            if (
+                processed == 1
+                or processed % config.log_every_n_chunks == 0
+                or processed == total_chunks
+            ):
                 elapsed = time.perf_counter() - render_start
                 rate = processed / elapsed if elapsed > 0 else 0.0
                 remaining = total_chunks - processed
@@ -102,7 +111,12 @@ def main() -> None:
                 )
 
         row_elapsed = time.perf_counter() - row_start
-        log.info("Completed row %02d/%02d in %.1f sec", cy + 1, config.cells_y, row_elapsed)
+        log.info(
+            "Completed row %02d/%02d in %.1f sec",
+            cy + 1,
+            config.cells_y,
+            row_elapsed,
+        )
 
     log.info("Chunk export complete. Building overview tiles...")
     build_overview_tiles_from_chunks(config)
