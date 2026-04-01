@@ -22,9 +22,9 @@ ROW_H = 128
 COLS = SHEET_W // LANE_W   # 8
 ROWS = SHEET_H // ROW_H    # 16
 
-DEFAULT_BOTTOM_PAD = 6
-DEFAULT_MAX_ATM_W = 54
-DEFAULT_MAX_ATM_H = 88
+DEFAULT_BOTTOM_PAD = 4
+DEFAULT_MAX_ATM_W = 72
+DEFAULT_MAX_ATM_H = 108
 
 
 # ============================================================
@@ -53,9 +53,19 @@ def trim_transparent(img: Image.Image) -> Image.Image:
 
 def remove_background_by_corner_sample(
     img: Image.Image,
-    tolerance: int = 18,
+    tolerance: int = 8,
     alpha_cutoff: int = 10,
+    edge_only: bool = True,
+    edge_band: int = 6,
 ) -> Image.Image:
+    """
+    Remove likely background pixels by sampling the four corners.
+
+    Safer than the old version because:
+    - lower tolerance
+    - can limit removal to the outer edge band only
+    - preserves interior gray ATM body pixels much better
+    """
     img = ensure_rgba(img)
     w, h = img.size
 
@@ -71,6 +81,7 @@ def remove_background_by_corner_sample(
     bb = sum(px[2] for px in samples) // 4
 
     out = Image.new("RGBA", img.size)
+
     for y in range(h):
         for x in range(w):
             r, g, b, a = img.getpixel((x, y))
@@ -79,7 +90,16 @@ def remove_background_by_corner_sample(
                 out.putpixel((x, y), (0, 0, 0, 0))
                 continue
 
-            if (
+            is_edge_pixel = (
+                x < edge_band
+                or x >= w - edge_band
+                or y < edge_band
+                or y >= h - edge_band
+            )
+
+            should_test_bg = is_edge_pixel if edge_only else True
+
+            if should_test_bg and (
                 abs(r - br) <= tolerance
                 and abs(g - bg) <= tolerance
                 and abs(b - bb) <= tolerance
@@ -307,7 +327,12 @@ def make_variant(
     work = ensure_rgba(master)
 
     if auto_remove_bg:
-        work = remove_background_by_corner_sample(work, tolerance=18)
+        work = remove_background_by_corner_sample(
+            work,
+            tolerance=8,
+            edge_only=True,
+            edge_band=6,
+        )
 
     work = trim_transparent(work)
     work = fit_inside(work, max_w=max_w, max_h=max_h)
